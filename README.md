@@ -68,3 +68,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+# Use Effect
+
+useEffect를 사용하면 최초 1회에만 렌더링이 되고 이후에는 렌더링이 되지 않도록 할 수 있습니다. 즉 useEffect 함수를 사용하면 코드를 딱 한 번만 실행될 수 있도록 합니다. 상태가 변화하던, 다른 어떤일이 일어나도 useEffect를 사용하면 한번만 실행되는 것을 보장할 수 있습니다.
+
+이는 예를 들어 API 호출을 할때 유용하게 사용될 수 있습니다.
