@@ -76,3 +76,30 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 useEffect를 사용하면 최초 1회에만 렌더링이 되고 이후에는 렌더링이 되지 않도록 할 수 있습니다. 즉 useEffect 함수를 사용하면 코드를 딱 한 번만 실행될 수 있도록 합니다. 상태가 변화하던, 다른 어떤일이 일어나도 useEffect를 사용하면 한번만 실행되는 것을 보장할 수 있습니다.
 
 이는 예를 들어 API 호출을 할때 유용하게 사용될 수 있습니다.
+
+이는 매우 중요한 포인트입니다.
+
+만약 input을 받는 상황에서 input에 대한 변화 값을 업데이트하고있다고 가정해봅시다.
+
+이때 이 변하를 업데이트하기 위해 렌더링을 진행할텐데, 이때마다 API 호출을 하게 되면 이는 불필요한 호출을 하게되는 것입니다.
+
+이를 통해 useEffect의 필요성을 알 수 있습니다.
+
+```javascript
+const [keyword, setKeyword] = useState("");
+const onChange = (event) => {
+    setKeyword(event.target.value);
+  };
+useEffect(() => {
+    if (keyword !== "" && keyword.length > 5) {
+        console.log("search for ", keyword);
+    }
+  }, [keyword]);
+```
+
+위 코드에서는 keyword가 변화할때만 console.log(); 가 실행됩니다.
+
+왜냐하면 useEffect()에서 []안의 keyword의 변경이 일어날때 코드를 실행하기 때문입니다.
+이것이 useEffect의 큰 장점입니다.
+
+그래서 만약 [] 빈 배열로 정의한다면 최초의 1번만 실행되는 이유가 바라보고있는 변수가 없기 때문입니다.
