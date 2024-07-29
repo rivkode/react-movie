@@ -103,3 +103,53 @@ useEffect(() => {
 이것이 useEffect의 큰 장점입니다.
 
 그래서 만약 [] 빈 배열로 정의한다면 최초의 1번만 실행되는 이유가 바라보고있는 변수가 없기 때문입니다.
+
+# Clean up
+
+
+```javascript
+import { useEffect, useState } from "react";
+
+function Hello() {
+  function byeFn() {
+    console.log("destroyed");
+  }
+
+  function hiFn() {
+    console.log("created");
+    return byeFn;
+  }
+
+  useEffect(hiFn, []);
+  return <h1>Hello</h1>;
+}
+
+function App() {
+  const [showing, setShowing] = useState(false);
+  const onClick = () => setShowing(prev => !prev);
+
+  
+  return (
+    <div>
+      {showing ? <Hello/> : null }
+      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+Hello 컴포넌트를 Hide 할때 컴포넌트가 스크린에서 지워지고, show 를 누르면 컴포넌트가 다시 생성되므로 useEffect 도 다시 실행됨을 알 수 있습니다.
+
+
+Clean up 의 경우 컴포넌트가 삭제될 경우에도 코드를 실행할 수 있는 방법은 return 으로 function 함수를 만들어주는 방식입니다.
+
+useEffect는 함수를 받고, 이 함수는 dependency 의 변수가 변화할 때 호출이 됩니다.
+
+현재는 dependency 가 비어있으므로 처음 생성된 이후 함수가 호출되지 않습니다.
+
+그래서 컴포넌트가 삭제될때 함수를 실행하고 싶드면 useEffect가 새로운 함수를 return 해야합니다.
+
+왜냐면 deps가 비어있으면 자동으로 컴포넌트가 파괴될 때 cleanup함수가 실행되는데 그 과정이 리렌더링으로 useEffect함수가 실행되고 클린업하면서 이전에 있던 이펙트인 console.log("created" )가 삭제되고 새로운 이펙트 함수인 return함수가 실행되기 때문입니다.
