@@ -153,3 +153,9 @@ useEffect는 함수를 받고, 이 함수는 dependency 의 변수가 변화할 
 그래서 컴포넌트가 삭제될때 함수를 실행하고 싶드면 useEffect가 새로운 함수를 return 해야합니다.
 
 왜냐면 deps가 비어있으면 자동으로 컴포넌트가 파괴될 때 cleanup함수가 실행되는데 그 과정이 리렌더링으로 useEffect함수가 실행되고 클린업하면서 이전에 있던 이펙트인 console.log("created" )가 삭제되고 새로운 이펙트 함수인 return함수가 실행되기 때문입니다.
+
+# Todo List
+
+`const [toDos, setToDos] = useState([]);` 와 같이 선언한 toDos 배열을 수정하기 위해 절대로 toDos.push() 혹은 toDos = []; 와 같이 사용하지 않습니다.
+즉, 상수를 직접 변경하지 않고 반드시 setToDos 함수를 사용합니다.
+
