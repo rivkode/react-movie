@@ -159,3 +159,27 @@ useEffect는 함수를 받고, 이 함수는 dependency 의 변수가 변화할 
 `const [toDos, setToDos] = useState([]);` 와 같이 선언한 toDos 배열을 수정하기 위해 절대로 toDos.push() 혹은 toDos = []; 와 같이 사용하지 않습니다.
 즉, 상수를 직접 변경하지 않고 반드시 setToDos 함수를 사용합니다.
 
+수정하는 함수를 사용할 때는 두가지 옵션이 있습니다.
+
+1. 값을 바로 보낸다.
+2. 함수를 보낸다.
+
+함수를 보낼 때 react.js 는 함수의 첫번째 argument 로 현재 state로 보낸다.
+
+이렇게 되면 우리는 현재 state를 계산하거나 새로운 state를 만드는데 사용할 수 있게 된다
+
+`setToDos(currentArray => [toDo, ...currentArray]);` 여기서 진행되는 것은 현재의 toDos를 받아와서 새로운 toDo의 Array 로 return 하는 것 입니다.
+
+`toDos.map()` 와 같이 map() 함수를 사용하게 되면 모든 array 에 대해 실행되게 됩니다.
+
+만약  `toDos.map((item) => item.toUpperCase())` 와 같이 진행되면 모든 함수로 접근을 할 수 있게 됩니다. 이 코드를 실행하게 되면 모든 변수들은 대문자로 변환됩니다.
+
+그래서 ['there', 'are', 'you', 'hello'] => ['THERE', 'ARE', 'YOU', 'HELLO'] 로 변환됩니다.
+
+추가로 동일한 component의 list를 render를 할 때 key라는 prop을 넣어줘야 합니다.
+왜냐하면 react는 기본적으로 list에 있는 모든 item들을 인식하기 때문입니다.
+
+그래서 아래와 같이 index를 key로 넣어주면 됩니다.
+
+`<ul>{toDos.map((item, index) => <li key={index}>{item}</li>)}</ul>`
+
