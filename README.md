@@ -183,3 +183,48 @@ useEffect는 함수를 받고, 이 함수는 dependency 의 변수가 변화할 
 
 `<ul>{toDos.map((item, index) => <li key={index}>{item}</li>)}</ul>`
 
+# Coin Tracker
+
+```javascript
+import { useState, useEffect } from "react";
+
+function App() {
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([]);
+  useEffect(() => {
+    fetch(" https://api.coinpaprika.com/v1/tickers?limit=10").then(response =>
+      response.json())
+      .then((json) => {
+        setCoins(json);
+        setLoading(false);
+      });
+  }, [])
+
+  
+
+  return <div>
+    <h1>The Coins {loading ? "" : `(${coins.length})`}</h1>
+    {loading ? (<strong>Loading ...</strong>) : (
+      <select>
+        {coins.map((coin) => (
+          <option>
+            {coin.name} ({coin.symbol}) : ({coin.quotes.USD.price} USD)
+          </option>
+          ))}
+      </select>
+    )}
+  </div>
+}
+
+export default App;
+
+```
+
+useState() 함수를 통해 loading과 coins 상태를 만듭니다
+그리고 useEffect() 에서 fetch()를 하여 response로 데이터를 받아오고
+이 데이터를 화면에 보여주도록 합니다
+
+화면에 보여줄때에는 데이터의 개수가 최초로 fetch 되기 전에 기본 값은 true로 coin의 개수가 보이지 않고
+fetch가 다 되고 난 이후에는 loading이 false가 되어 coin의 개수가 나타나게 됩니다
+
+coin에 대한 정보를 option으로 하며 coins.map()을 통해 코인들을 하나씩 불러왔습니다
